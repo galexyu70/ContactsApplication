@@ -1,0 +1,123 @@
+﻿@model ContactsApp.Models.ContactModel
+
+@{
+    ViewData["Title"] = "MNP";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+
+
+<h4>Create New Contact</h4>
+<hr />
+
+<form id="FrmSaveNewContact" method="post" asp-action="New">
+    <div class="container">
+         <div class="row">
+             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+             <div class="col-md-4">
+                <div class="form-group">
+                    <label asp-for="Name" class="control-label"></label>
+                    <input asp-for="Name" class="form-control" />
+                    <span asp-validation-for="Name" class="text-danger"></span>
+                </div>
+                <div class="form-group">
+                    <label asp-for="JobTitle" class="control-label"></label>
+                    <input asp-for="JobTitle" class="form-control" />
+                    <span asp-validation-for="JobTitle" class="text-danger"></span>
+                </div>
+                <div class="form-group">
+                    <label asp-for="Company" class="control-label"></label>
+                    <select asp-for="Company" class="form-control-custom">
+                        <option>Disney</option>
+                        <option>HP</option>
+                        <option>Microsoft</option>
+                        <option>Google</option>
+                        <option>MNP</option>
+                    </select>
+                    <span asp-validation-for="Company" class="text-danger"></span>
+                </div>
+             </div>
+
+             <div class="col-md-4">
+                <div class="form-group">
+                    <label asp-for="Address" class="control-label"></label>
+                    <input asp-for="Address" class="form-control" />
+                    <span asp-validation-for="Address" class="text-danger"></span>
+                </div>
+                <div class="form-group">
+                    <label asp-for="PhoneNumber" class="control-label"></label>
+                    <input asp-for="PhoneNumber" class="form-control" />
+                    <span asp-validation-for="PhoneNumber" class="text-danger"></span>
+                </div>
+                <div class="form-group">
+                    <label asp-for="Email" class="control-label"></label>
+                    <input asp-for="Email" class="form-control" />
+                    <span asp-validation-for="Email" class="text-danger"></span>
+                </div>
+             </div>
+
+             <div class="col-md-4">
+                <div class="form-group">
+                    <label asp-for="LastDateContacted" class="control-label"></label>
+                    <input asp-for="LastDateContacted" class="form-control"/>
+                    <span asp-validation-for="LastDateContacted" class="text-danger"></span>
+                </div>
+                <div class="form-group">
+                    <label asp-for="Comments" class="control-label"></label>
+                    <textarea asp-for="Comments" class="form-control" rows="4"></textarea>
+                    <span asp-validation-for="Comments" class="text-danger"></span>
+                </div>
+                <div class="form-group">
+                  <input type="submit" asp-action="New" id="CreateNew" formmethod="post" value="Create" class="btn btn-primary-custom" />
+                  <input type="button"  onclick="location.href='@Url.Action("Index","Contact")'" value="Cancel" class="btn btn-primary-custom" />
+                </div>
+             </div>
+   
+         </div>
+     </div>
+</form>
+
+<div input type="hidden" id="SaveNewDialog">Do you want to save contact?</div>
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");
+
+        <link rel="stylesheet" href="https://code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
+        <script src="https://code.jquery.com/jquery-1.12.4.js"></script>
+        <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
+        <script>
+        $(document).ready(function () {
+ 
+            //SaveNewDialog prompts to Confirm or Cancel saving contact
+            $("#SaveNewDialog").dialog({
+                height: 180,
+                modal: true,
+                autoOpen: false,
+                title: "MNP Contacts",
+                
+                buttons: {
+                    'Confirm': function () {
+                        $("#FrmSaveNewContact").submit();
+                        $(this).dialog('close');
+                    },
+                    'Cancel': function () {
+                        $(this).dialog('close');
+                    }
+                }
+            });
+
+            $("#SaveNewDialog").hide();
+
+          //click on Create button opens SaveNewDialog
+            $("#CreateNew").click(function (e) {
+                $("#SaveNewDialog").dialog("open");
+                e.preventDefault();
+                return false;
+            });
+        });
+
+        </script>
+
+}
+}
+

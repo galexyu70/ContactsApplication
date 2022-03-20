@@ -1,0 +1,94 @@
+﻿@model IEnumerable<ContactsApp.Models.ContactModel>
+
+@{
+    ViewData["Title"] = "MNP";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h4>Contacts</h4>
+
+
+<form>
+<p>
+    <input type="submit" asp-controller="Contact" asp-action="New" value="Create New Contact" class="btn btn-primary-custom" />
+</p>
+
+<p>
+    @{
+        //show success message
+        var result = (string)TempData["Success"];
+        if(result != null && !result.Equals(string.Empty))
+        {
+            <div class="alert alert-success alert-dismissible fade show" role="alert">
+                <strong>@result</strong>
+                <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+            </div>
+         }
+        TempData["Success"] = string.Empty;
+    }
+
+</p>
+
+
+<table class="table  table-bordered table-striped">
+    <thead>
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.Name)
+                <br/>
+                <label>(job title)</label>
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Company)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Address)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.PhoneNumber)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Email)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.LastDateContacted)
+            </th>
+        </tr>
+    </thead>
+    <tbody>
+@foreach (var item in Model) {
+        <tr onclick="location.href='@Url.Action("Edit","Contact", new {id = item.Id})'">
+            <td>   
+                @Html.DisplayFor(modelItem => item.Name)
+                <br/>
+                @Html.DisplayFor(modelItem => item.JobTitle)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Company)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Address)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.PhoneNumber)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Email)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.LastDateContacted)
+            </td>
+ 
+        </tr>
+}
+    </tbody>
+</table>
+</form>
+
+
+
+@*           <td>
+                @Html.ActionLink("Edit", "Edit", new { /* id=item.PrimaryKey */ }) |
+                @Html.ActionLink("Details", "Details", new { /* id=item.PrimaryKey */ }) |
+                @Html.ActionLink("Delete", "Delete", new { /* id=item.PrimaryKey */ })
+            </td>*@
