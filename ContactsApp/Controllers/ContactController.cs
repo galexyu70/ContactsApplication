@@ -32,7 +32,7 @@ namespace ContactsApp.Controllers
             }
             else//testing case
             {
-                
+                //accessing location of appsettings.json for testing 
                 string dir =Directory.GetCurrentDirectory();
                 dir = dir.Substring(0, dir.IndexOf("\\ContactsApp.Test\\") + "ContactsApp.Test\\".Length);
                 IConfiguration configuration = new ConfigurationBuilder()
