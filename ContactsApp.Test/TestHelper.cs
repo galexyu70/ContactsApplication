@@ -14,17 +14,22 @@ namespace ContactsApp.Test
 {
     public class TestHelper
     {
+        /// <summary>
+        /// Mock of Contact Controller
+        /// </summary>
+        /// <param name="mocTmpData"></param>
+        /// <returns>mocController</returns>
         public static ContactController GetContactController(string mocTmpData)
         {
             var httpContext = new DefaultHttpContext();
             var mockTempData = new TempDataDictionary(httpContext, Mock.Of<ITempDataProvider>());
             mockTempData["Error"] = mocTmpData;
-            ContactController _mocController = new ContactController(null, null)
+            ContactController mocController = new ContactController(null, null)
             {
                 TempData = mockTempData
             };
 
-            return _mocController;
+            return mocController;
         }
 
 

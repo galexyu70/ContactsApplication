@@ -30,7 +30,7 @@ namespace ContactsApp.Controllers
                 _environment = Env;
                 ConfigurationString = LoadConfigString();
             }
-            else//testing case
+            else//testing case when we are passing nulls for Config and Env
             {
                 //accessing location of appsettingsTest.json for testing 
                 ConfigurationString = SqlHelper.GetTestConfigString(); 
@@ -43,7 +43,7 @@ namespace ContactsApp.Controllers
         /// <summary>
         /// Creates Configuartion String for DB access
         /// </summary>
-        /// <returns></returns>
+        /// <returns>configString</returns>
         public string LoadConfigString()
         {
             //get Configuration string from appsetings.json
@@ -56,8 +56,13 @@ namespace ContactsApp.Controllers
         }
 
         // GET: Contact/Index
+        /// <summary>
+        /// Gets list of all Contacts
+        /// </summary>
+        /// <returns>Index View</returns>
         public ActionResult Index()
         {
+            //load all Contacts from database
             List<ContactModel>  contacts = _sqliteDBAccess.LoadContacts();
             TempData["Error"] = _sqliteDBAccess.Error;
 
@@ -69,9 +74,12 @@ namespace ContactsApp.Controllers
             return View("Index", contacts);
         }
 
- 
+
         // GET: Contact/New
-        [HttpGet]
+        /// <summary>
+        /// Shows New View
+        /// </summary>
+        /// <returns>New View</returns>
         [Route("Contact/New")]
         public ActionResult New()
         {
@@ -83,6 +91,11 @@ namespace ContactsApp.Controllers
         }
 
         // POST: Contact/New
+        /// <summary>
+        /// Saves Contact to database
+        /// </summary>
+        /// <param name="contact"></param>
+        /// <returns></returns>
         [HttpPost]
         [ValidateAntiForgeryToken]
         [Route("Contact/New")]
@@ -91,7 +104,7 @@ namespace ContactsApp.Controllers
 
             if (ModelState.IsValid)
             {
-                //save contact
+                //save contact to database
                 int ret = _sqliteDBAccess.SaveContact(contact);
 
                 TempData["Error"] = _sqliteDBAccess.Error;
@@ -117,12 +130,16 @@ namespace ContactsApp.Controllers
         }
 
         // GET: Contact/Edit/5
-       // [Route("Contact/Edit/{id}")]
+        /// <summary>
+        /// Gets Contact for the given id
+        /// </summary>
+        /// <param name="id"></param>
+        /// <returns></returns>
         [Route("Contact/{id}")]
         [Route("Contact/Edit")]
         public ActionResult Edit(int id)
         {
-            //get contact for given id 
+            //load contact for given id 
             ContactModel contact = _sqliteDBAccess.GetContact(id);
             TempData["Error"] = _sqliteDBAccess.Error;
 
@@ -136,6 +153,11 @@ namespace ContactsApp.Controllers
         }
 
         // POST: Contact/Edit
+        /// <summary>
+        /// Updates Contact to database
+        /// </summary>
+        /// <param name="contact"></param>
+        /// <returns></returns>
         [HttpPost]
         [ValidateAntiForgeryToken]
         [Route("Contact/Edit")]
@@ -144,7 +166,7 @@ namespace ContactsApp.Controllers
   
             if (ModelState.IsValid)
             {
-                //save contact
+                //save contact 
                 int ret = _sqliteDBAccess.UpdateContact(contact);
 
                 TempData["Error"] = _sqliteDBAccess.Error;

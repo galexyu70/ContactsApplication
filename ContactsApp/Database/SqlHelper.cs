@@ -5,6 +5,9 @@ namespace ContactsApp.Database
 {
     public class SqlHelper
     {
+        /// <summary>
+        /// SQL Statements
+        /// </summary>
        //check if table Contacts exists
         public static readonly string sqlTblCount = @"SELECT COUNT(*) FROM sqlite_master WHERE type='table' AND name='Contacts'";
 
@@ -106,6 +109,10 @@ namespace ContactsApp.Database
             return parameters;
         }
 
+        /// <summary>
+        /// Used for testing
+        /// </summary>
+        /// <returns>Configuration String from appsettingsTest.json</returns>
         public static string GetTestConfigString()
         {
             string configString = string.Empty;
