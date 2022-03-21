@@ -15,13 +15,23 @@ namespace ContactsApp.Test
     public class DBAccessTest
     {
 
+        [TestMethod]
+        public void GetTestConfigString_Test()
+        {
+            //Arrange
 
+            //Act
+            string ConfigString = SqlHelper.GetTestConfigString();
+
+            //Assert
+            Assert.AreNotEqual(ConfigString, string.Empty);
+        }
 
         [TestMethod]
         public void LoadContacts_Test()
         {
             //Arrange
-            string ConfigString = TestHelper.GetConfigurationString();
+            string ConfigString = SqlHelper.GetTestConfigString();
             SQLiteDBAccess sqliteDBAccess = new SQLiteDBAccess(ConfigString);
 
             //Act
@@ -36,7 +46,7 @@ namespace ContactsApp.Test
         public void GetContact_ValidId_Test()
         {
             //Arrange
-            string ConfigString = TestHelper.GetConfigurationString();
+            string ConfigString = SqlHelper.GetTestConfigString();
             SQLiteDBAccess sqliteDBAccess = new SQLiteDBAccess(ConfigString);
 
             //Act
@@ -51,7 +61,7 @@ namespace ContactsApp.Test
         public void GetContact_NotValidId_Test()
         {
             //Arrange
-            string ConfigString = TestHelper.GetConfigurationString();
+            string ConfigString = SqlHelper.GetTestConfigString();
             SQLiteDBAccess sqliteDBAccess = new SQLiteDBAccess(ConfigString);
 
             //Act
@@ -65,7 +75,7 @@ namespace ContactsApp.Test
         public void UpdateContact_ValidModel_Test()
         {
             //Arrange
-            string ConfigString = TestHelper.GetConfigurationString();
+            string ConfigString = SqlHelper.GetTestConfigString();
             SQLiteDBAccess sqliteDBAccess = new SQLiteDBAccess(ConfigString);
 
             //Act
@@ -80,7 +90,7 @@ namespace ContactsApp.Test
         public void UpdateContact_NotValidModel_Test()
         {
             //Arrange
-            string ConfigString = TestHelper.GetConfigurationString();
+            string ConfigString = SqlHelper.GetTestConfigString();
             SQLiteDBAccess sqliteDBAccess = new SQLiteDBAccess(ConfigString);
 
             //Act
@@ -92,10 +102,25 @@ namespace ContactsApp.Test
         }
 
         [TestMethod]
+        public void UpdateContact_NullModel_Test()
+        {
+            //Arrange
+            string ConfigString = SqlHelper.GetTestConfigString();
+            SQLiteDBAccess sqliteDBAccess = new SQLiteDBAccess(ConfigString);
+
+            //Act
+            int ret = sqliteDBAccess.UpdateContact(null);
+
+            //Assert
+            Assert.AreEqual(ret, 0);
+            Assert.AreNotEqual(sqliteDBAccess.Error, string.Empty);
+        }
+
+        [TestMethod]
         public void SaveContact_ValidModel_Test()
         {
             //Arrange
-            string ConfigString = TestHelper.GetConfigurationString();
+            string ConfigString = SqlHelper.GetTestConfigString();
             SQLiteDBAccess sqliteDBAccess = new SQLiteDBAccess(ConfigString);
 
             //Act
@@ -110,7 +135,7 @@ namespace ContactsApp.Test
         public void SaveContact_NotValidModel_Test()
         {
             //Arrange
-            string ConfigString = TestHelper.GetConfigurationString();
+            string ConfigString = SqlHelper.GetTestConfigString();
             SQLiteDBAccess sqliteDBAccess = new SQLiteDBAccess(ConfigString);
 
             //Act
@@ -119,6 +144,21 @@ namespace ContactsApp.Test
             //Assert
             Assert.AreEqual(ret, 0);
             Assert.AreEqual(sqliteDBAccess.Error, "Constraint failed");
+        }
+
+        [TestMethod]
+        public void SaveContact_NullModel_Test()
+        {
+            //Arrange
+            string ConfigString = SqlHelper.GetTestConfigString();
+            SQLiteDBAccess sqliteDBAccess = new SQLiteDBAccess(ConfigString);
+
+            //Act
+            int ret = sqliteDBAccess.SaveContact(null);
+
+            //Assert
+            Assert.AreEqual(ret, 0);
+            Assert.AreNotEqual(sqliteDBAccess.Error, string.Empty);
         }
 
     }

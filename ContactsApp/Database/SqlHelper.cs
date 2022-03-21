@@ -85,22 +85,48 @@ namespace ContactsApp.Database
         /// <returns>DynamicParameters</returns>
         public static DynamicParameters CreateDynamicParametersUpdate(ContactModel contact)
         {
-            Dictionary<string, object> dict = new Dictionary<string, object>
-            {
-                { "id", contact.Id },
-                { "Name", contact.Name },
-                { "JobTitle", contact.JobTitle  },
-                { "Company", contact.Company },
-                { "Address", contact.Address },
-                { "PhoneNumber", contact.PhoneNumber },
-                { "Email", contact.Email },
-                { "LastDateContacted", contact.LastDateContacted },
-                { "Comments", contact.Comments }
-            };
+            Dictionary<string, object> dict = new Dictionary<string, object>();
+
+            if (contact != null)
+                dict = new Dictionary<string, object>
+                {
+                    { "id", contact.Id },
+                    { "Name", contact.Name },
+                    { "JobTitle", contact.JobTitle  },
+                    { "Company", contact.Company },
+                    { "Address", contact.Address },
+                    { "PhoneNumber", contact.PhoneNumber },
+                    { "Email", contact.Email },
+                    { "LastDateContacted", contact.LastDateContacted },
+                    { "Comments", contact.Comments }
+                };
 
             DynamicParameters parameters = new DynamicParameters(dict);
 
             return parameters;
+        }
+
+        public static string GetTestConfigString()
+        {
+            string configString = string.Empty;
+
+            try
+            {
+                string dir = Directory.GetCurrentDirectory();
+                dir = dir.Substring(0, dir.IndexOf("\\ContactsApp.Test\\") + "ContactsApp.Test\\".Length);
+                IConfiguration configuration = new ConfigurationBuilder()
+                    .SetBasePath(dir)
+                    .AddJsonFile("appsettingsTest.json")
+                    .Build();
+                configString = configuration.GetConnectionString("SqliteConnectionString");
+                configString = configString.Replace("~", dir);
+            }
+            catch (Exception ex)
+            {
+                configString = string.Empty;
+            }
+
+            return configString;
         }
     }
 }

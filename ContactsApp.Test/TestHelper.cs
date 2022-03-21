@@ -8,6 +8,7 @@ using ContactsApp.Database;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
 using System.IO;
+using System;
 
 namespace ContactsApp.Test
 {
@@ -27,19 +28,11 @@ namespace ContactsApp.Test
         }
 
 
-        public static string GetConfigurationString()
-        {
-            string dir = Directory.GetCurrentDirectory();
-            dir = dir.Substring(0, dir.IndexOf("\\ContactsApp.Test\\") + "ContactsApp.Test\\".Length);
-            IConfiguration configuration = new ConfigurationBuilder()
-                .SetBasePath(dir)
-                .AddJsonFile("appsettingsTest.json")
-                .Build();
-            string configString = configuration.GetConnectionString("SqliteConnectionString");
-            configString = configString.Replace("~", dir);
+        //public static string GetConfigurationString()
+        //{
+        //    string configString = SqlHelper.GetTestConfigString();
+        //    return configString;
 
-            return configString;
-
-        }
+        //}
     }
 }
