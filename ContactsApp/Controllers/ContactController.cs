@@ -32,15 +32,8 @@ namespace ContactsApp.Controllers
             }
             else//testing case
             {
-                //accessing location of appsettings.json for testing 
-                string dir =Directory.GetCurrentDirectory();
-                dir = dir.Substring(0, dir.IndexOf("\\ContactsApp.Test\\") + "ContactsApp.Test\\".Length);
-                IConfiguration configuration = new ConfigurationBuilder()
-                    .SetBasePath(dir)
-                    .AddJsonFile("appsettingsTest.json")
-                    .Build();
-                string configString = configuration.GetConnectionString("SqliteConnectionString");
-                ConfigurationString = configString.Replace("~", dir); 
+                //accessing location of appsettingsTest.json for testing 
+                ConfigurationString = SqlHelper.GetTestConfigString(); 
             }
 
             _sqliteDBAccess = new SQLiteDBAccess(ConfigurationString);

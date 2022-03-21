@@ -26,7 +26,7 @@ namespace ContactsApp.Test
             ContactController mocController = TestHelper.GetContactController(mocTmpData);
 
             //Act
-            ViewResult? result = mocController.Index() as ViewResult;
+            ViewResult result = mocController.Index() as ViewResult;
 
             //Assert
             Assert.IsNotNull(result);
@@ -40,7 +40,7 @@ namespace ContactsApp.Test
             ContactController mocController = TestHelper.GetContactController(mocTmpData);
 
             //Act
-            ViewResult? result = mocController.New() as ViewResult;
+            ViewResult result = mocController.New() as ViewResult;
 
             //Assert
             Assert.IsNotNull(result);
@@ -57,6 +57,7 @@ namespace ContactsApp.Test
             var result = (RedirectToActionResult)mocController.New(TestData.Contact_Valid);
 
             //Assert
+            Assert.IsNotNull(result);
             Assert.AreEqual("Index", result.ActionName);
 
         }
@@ -68,7 +69,7 @@ namespace ContactsApp.Test
             ContactController mocController = TestHelper.GetContactController(mocTmpData);
 
             //Act
-            ViewResult? result = mocController.New(TestData.Contact_Null) as ViewResult;
+            ViewResult result = mocController.New(TestData.Contact_Null) as ViewResult;
 
             //Assert
             Assert.IsNotNull(result);
@@ -84,7 +85,7 @@ namespace ContactsApp.Test
 
             //Act
             mocController.ModelState.AddModelError("Test Error", "Test Error");
-            ViewResult? result = mocController.New(new ContactModel()) as ViewResult;
+            ViewResult result = mocController.New(new ContactModel()) as ViewResult;
 
             //Assert
             Assert.IsNotNull(result);
@@ -99,7 +100,7 @@ namespace ContactsApp.Test
             ContactController mocController = TestHelper.GetContactController(mocTmpData);
 
             //Act
-            ViewResult? result = mocController.Edit(0) as ViewResult;
+            ViewResult result = mocController.Edit(0) as ViewResult;
 
             //Assert
             Assert.IsNotNull(result);
@@ -114,7 +115,7 @@ namespace ContactsApp.Test
             ContactController mocController = TestHelper.GetContactController(mocTmpData);
 
             //Act
-            ViewResult? result = mocController.Edit(9999) as ViewResult;
+            ViewResult result = mocController.Edit(9999) as ViewResult;
 
             //Assert
             Assert.IsNotNull(result);
@@ -132,6 +133,7 @@ namespace ContactsApp.Test
             var result = (RedirectToActionResult)mocController.Edit(TestData.Contact_Valid);
 
             //Assert
+            Assert.IsNotNull(result);
             Assert.AreEqual("Index", result.ActionName);
 
         }
@@ -142,14 +144,29 @@ namespace ContactsApp.Test
             //Arrange
             ContactController mocController = TestHelper.GetContactController(mocTmpData);
             //Act
-            ViewResult? result = mocController.Edit(TestData.Contact_Null) as ViewResult;
+            ViewResult result = mocController.Edit(TestData.Contact_Null) as ViewResult;
 
             //Assert
             Assert.IsNotNull(result);
             Assert.AreEqual("Edit", result.ViewName);
 
         }
+     
+        [TestMethod]
+        public void EditView_ModelError_Test()
+        {
+            //Arrange
+            ContactController mocController = TestHelper.GetContactController(mocTmpData);
 
+            //Act
+            mocController.ModelState.AddModelError("Test Error", "Test Error");
+            ViewResult result = mocController.Edit(new ContactModel()) as ViewResult;
+           // ViewResult result = mocController.Edit(TestData.Contact_Null) as ViewResult;
 
+            //Assert
+            Assert.IsNotNull(result);
+            Assert.AreEqual("Edit", result.ViewName);
+
+        }
     }
 }
